@@ -1,0 +1,28 @@
+/dts-v1/;
+/plugin/;
+ 
+/ {
+	compatible = "i2c-gpio";  
+        fragment@0 {
+		target = <&i2c_gpio>;		
+		compatible = "i2c-gpio";
+                __overlay__ {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                        status = "okay";
+                        tft_tp: ns2009@48 {
+                                compatible = "ti,tsc2007";
+                                reg = <0x48>;
+                		#interrupt-parent = <&gpio>;
+                		#interrupts = <25 0x2>; /* falling edge */
+                		#gpios = <&gpio 25 0>;
+                		ti,x-plate-ohms = <660>;
+				ti,rt-thr = <3000>;
+				ti,fuzzx = <32>;
+				ti,fuzzy = <16>;
+				i2c,ignore-nak = <1>;
+                        };
+                };
+        };
+};
+
