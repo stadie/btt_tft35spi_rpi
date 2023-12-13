@@ -6,8 +6,7 @@ We use the TFT35-SPI and IO2CAN from bigtreetech:
 
 ## Setting up the display:
 
-in /boot/config.txt:
-
+add to the end of /boot/config.txt:
 ```
 dtparam=spi=on
 dtoverlay=fbtft,spi0-1,ili9486,width=320,height=480,dc_pin=17
@@ -15,28 +14,44 @@ dtparam=cpha=1,cpol=1,speed=24000000,fps=60
 dtparam=bgr=1,rotate=90,txbuflen=307200
 ```
 
+to get console output, append to line in /boot/command.txt
+```
+
+```
+
+
+reboot and check if you get output. You can use ```dmesg``` to see if the module was loaded correctly.
+
 ## Setting up touch:
 
-install rpi-source:
+install kernel headers:
 ```
 sudo apt install git bc bison flex libssl-dev
-sudo wget https://raw.githubusercontent.com/RPi-Distro/rpi-source/master/rpi-source -O /usr/local/bin/rpi-source && sudo chmod +x /usr/local/bin/rpi-source && /usr/local/bin/rpi-source -q --tag-update
-```
-
-Download the sources of the current kernel:
-```
-rpi-source
+sudo apt install 
 ```
 
 Enable build of module:
 ```
-cd linux
-make menuconfig
+cd tsc2007
+make
 ```
-Go to "Device Drivers" -> "Input Device Support" -> "Touchscreens"; then press "m" for "TSC2007 based touchscreens" and exit.
 
-Build the modules:
+Copy module to kernel modules:
 ```
-make prepare
-make modules -j 4
+
+```
+
+Build overlay:
+```
+dtc  -@ -I dts -O dtb -o tft_touch.dtbo tft_touch.dts
+sudo cp tft_touch.dtbo /boot/overlays/.
+```
+
+Edit boot config:
+
+
+
+Test after rerboot:
+```
+dmesg | grep tft
 ```
