@@ -1,3 +1,8 @@
+#
+# A little Makefile to build the patched kernel module for the touch driver of BTT TFT35-SPI
+# author: Hartmut Stadie  Dec 2023
+#
+
 # Build options
 obj-m += tsc2007.o
 tsc2007-objs :=  tsc2007_core.o 
