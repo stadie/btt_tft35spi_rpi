@@ -4,7 +4,7 @@ We use the TFT35-SPI and IO2CAN from bigtreetech:
  - IO2CAN: https://github.com/bigtreetech/IO2CAN/tree/master
  - TFT35-SPI: https://github.com/bigtreetech/TFT35-SPI/tree/master
 
-Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and *set the switch on the IO2CAN to "CM4"*.
+Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
 
 [!NOTE]
 - You should also be able to use a 10-pin JST connector and wires to the gpio pins instead of the IO2CAN. Just make sure to connect to the gpio [pins that are also used by the IO2CAN for CM4](https://github.com/bigtreetech/IO2CAN/blob/master/Hardware/BIGTREETECH%20IO2CAN%20V1.0_IO.pdf).
