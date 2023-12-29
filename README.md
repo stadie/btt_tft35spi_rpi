@@ -32,12 +32,20 @@ _Please note that this uses spi0-1 and dc_pin=17 unlike written on the TFT35-SPI
 
 ## Setting up touch:
 
-- install kernel headers:
+- install the build tools:
 ```
 sudo apt install git bc bison flex libssl-dev
-sudo apt install raspberrypi-kernel-headers
 ```
-_I have also installed the kernel source with [rpi-source](https://github.com/RPi-Distro/rpi-source) but the headers should be enough_
+
+- install the kernel headers based on your system
+for 64 bit:
+```
+sudo apt install linux-headers-rpi-v8
+``` 
+or for 32 bit:
+```
+sudo apt install linux-headers-rpi-{v6,v7,v7l}
+```
 
 - install this repo:
 ```
