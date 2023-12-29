@@ -6,10 +6,10 @@ We use the TFT35-SPI and IO2CAN from bigtreetech:
 
 Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
 
-[!NOTE]
-- You should also be able to use a 10-pin JST connector and wires to the gpio pins instead of the IO2CAN. Just make sure to connect to the gpio [pins that are also used by the IO2CAN for CM4](https://github.com/bigtreetech/IO2CAN/blob/master/Hardware/BIGTREETECH%20IO2CAN%20V1.0_IO.pdf).
-- The display uses the spi0-1 interface. With the IO2CAN spi0-0 is used for CAN. However, the display seems to interfere with the CAN interface and I got corrupted packets and timeouts in klipper when homing. Lowering the bandwidth for the dispay did not help, so using CAN and the display does not seem to work reliably. Moving the display to other gpio pins is also not easy as the spi mode it uses is not supported on the other spi interfaces of rpi 2 zero or rpi 3.
-- You will have to re-build the kernel module for the tfttouch part every time your kernel changes.
+> [!NOTE]
+> - You should also be able to use a 10-pin JST connector and wires to the gpio pins instead of the IO2CAN. Just make sure to connect to the gpio [pins that are also used by the IO2CAN for CM4](https://github.com/bigtreetech/IO2CAN/blob/master/Hardware/BIGTREETECH%20IO2CAN%20V1.0_IO.pdf).
+> - The display uses the spi0-1 interface. With the IO2CAN spi0-0 is used for CAN. However, the display seems to interfere with the CAN interface and I got corrupted packets and timeouts in klipper when homing. Lowering the bandwidth for the dispay did not help, so using CAN and the display does not seem to work reliably. Moving the display to other gpio pins is also not easy as the spi mode it uses is not supported on the other spi interfaces of rpi 2 zero or rpi 3.
+> - You will have to re-build the kernel module for the tfttouch part every time your kernel changes.
 
 
 ## Setting up the display:
@@ -77,14 +77,14 @@ sudo reboot now
 ```
 you should have a working touch display.
 
-[!IMPORTANT]
-If the kernel version changes you will have to build and install the module again:
-```
-cd btt_tft35/tsc2007
-make clean
-make
-make install
-```
+> [!IMPORTANT]
+> If the kernel version changes you will have to build and install the module again:
+> ```
+> cd btt_tft35/tsc2007
+> make clean
+> make
+> make install
+> ```
 
 ## Debugging
 
