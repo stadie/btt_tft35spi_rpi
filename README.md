@@ -1,20 +1,38 @@
-# Getting TFT35-SPI with IO2CAN working on a raspberry pi
+# Getting TFT35-SPI working on a raspberry pi
 
-We use the TFT35-SPI and IO2CAN from bigtreetech:
+I have used the TFT35-SPI with IO2CAN from bigtreetech:
  - IO2CAN: https://github.com/bigtreetech/IO2CAN/tree/master
  - TFT35-SPI: https://github.com/bigtreetech/TFT35-SPI/tree/master
-
 Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
 
+However, this should also work with wires directly connecting the JST pins on the display with the gpio pins or  with a FCC cable to the "SPI screen" connector on a Manta board.
+
+Pin out:
+| TFT35-SPI | IOCAN gpio pin | Manta FCC gpio pin |
+| -- | --- | --- |
+| +5 V | any 5 V | comes from board |
+| GND | any GND | comes from board |
+| MISO_LCD (SPI MISO) | 9 | 9 |
+| MOSI_LCD (SPI MOSI) | 10 | 10 |
+| SCK_LCD (SPI SCLK) | 11 | 11 |
+| NSS_LCD (SPI CS) | 7 | 4 | 
+| RS_LCD | 17 | 17 |
+| SDA_NS2009 (I2C SDA) | 27  | 27 |
+| SCL_NS2009 (I2C SCL) | 22 | 22 |
+
+The gpio pins are set up to use the *spi0* interface. In case of the CM4 with the Manta board, a different chip select (CS) pin is used while with IO2CAN the CS pin is mapped to the default *cs1 pin* of *spi0*. 
+
+
 > [!NOTE]
-> - You should also be able to use a 10-pin JST connector and wires to the gpio pins instead of the IO2CAN. Just make sure to connect to the gpio [pins that are also used by the IO2CAN for CM4](https://github.com/bigtreetech/IO2CAN/blob/master/Hardware/BIGTREETECH%20IO2CAN%20V1.0_IO.pdf).
-> - The display uses the spi0-1 interface. With the IO2CAN spi0-0 is used for CAN. However, the display seems to interfere with the CAN interface and I got corrupted packets and timeouts in klipper when homing. Lowering the bandwidth for the dispay did not help, so using CAN and the display does not seem to work reliably. Moving the display to other gpio pins is also not easy as the spi mode it uses is not supported on the other spi interfaces of rpi zero 2 or rpi 3.
+> - With IO2CAN, the display uses the spi0-1 interface. However, the display seems to interfere with the CAN interface and I got corrupted packets and timeouts in klipper when homing. Lowering the bandwidth for the dispay did not help, so using CAN and the display does not seem to work reliably. Moving the display to other gpio pins is also not easy as the spi mode it uses is not supported on the other spi interfaces of rpi zero 2 or rpi 3.
 > - You will have to re-build the kernel module for the tfttouch part every time your kernel changes.
 
 
 ## Setting up the display:
 
-- add to the end of /boot/config.txt:
+- add to the end of /boot/config.txt to setup the SPI interface and load the display driver:
+
+with IO2CAN:
 ```
 dtparam=spi=on
 dtoverlay=fbtft,spi0-1,ili9486,width=320,height=480,dc_pin=17
@@ -22,6 +40,15 @@ dtparam=cpha=1,cpol=1,speed=24000000,fps=60
 dtparam=bgr=1,rotate=90,txbuflen=307200
 ```
 _Please note that this uses spi0-1 and dc_pin=17 unlike written on the TFT35-SPI git._
+
+with Manta/CM4:
+ ```
+dtoverlay=spi0-2cs,cs0_pin=23,cs1_pin=4,
+dtoverlay=fbtft,spi0-1,ili9486,width=320,height=480,dc_pin=17
+dtparam=cpha=1,cpol=1,speed=24000000,fps=60
+dtparam=bgr=1,rotate=90,txbuflen=307200
+``` 
+On the CB1 spi0-0 is reserved for CAN with the Manta, so it might be useful to set it up as well.
 
 - to get console output, append to line in /boot/cmdline.txt after "rootwait":
 ```
@@ -46,6 +73,8 @@ or for 32 bit:
 ```
 sudo apt install linux-headers-rpi-{v6,v7,v7l}
 ```
+
+_This seems to only work with the latest *bookworm* release._
 
 - install this repo:
 ```
