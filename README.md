@@ -59,12 +59,15 @@ On the CB1 spi0-0 is reserved for CAN with the Manta, so it might be useful to s
 
 ## Setting up touch:
 
-- install the build tools:
+- update system and install the build tools:
 ```
+sudo apt-get update
+sudo apt-get dist-upgrade
 sudo apt install git bc bison flex libssl-dev
 ```
 
 - install the kernel headers based on your system
+with rpi OS bookworm:
 for 64 bit:
 ```
 sudo apt install linux-headers-rpi-v8
@@ -74,7 +77,10 @@ or for 32 bit:
 sudo apt install linux-headers-rpi-{v6,v7,v7l}
 ```
 
-_This seems to only work with the latest *bookworm* release._
+with rpi OS bullseye:
+```
+sudo apt install --reinstall raspberrypi-kernel-headers
+```
 
 - install this repo:
 ```
