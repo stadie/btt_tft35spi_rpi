@@ -128,3 +128,6 @@ you should have a working touch display.
 dmesg
 sudo vcdbg log msg
 ```
+
+## Acknowledgements
+I like to thank Stenberggg on github for trying this setup on a raspberry pi 5. Fragmon@Crydteam on discord tried this on a CM4 and a Manta board and connect the display to the FCC port. He has also helped a lot in figuring out the correct pins. 
