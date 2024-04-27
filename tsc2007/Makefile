@@ -5,7 +5,7 @@
 
 # Build options
 obj-m += tsc2007.o
-tsc2007-objs :=  tsc2007_core.o 
+tsc2007-objs :=  tsc2007_core.o tsc2007_iio.o
 
 PWD := $(CURDIR)
 BTT_CODE := https://raw.githubusercontent.com/bigtreetech/CB1-Kernel/kernel-5.16/kernel
@@ -24,13 +24,16 @@ update: clean_code get_code
 clean_code: clean
 	rm -f *.c *.h
 
-get_code:  tsc2007_core.c  tsc2007.h
+get_code:  tsc2007_core.c  tsc2007.h tsc2007_iio.c
 
 tsc2007_core.c:
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_core.c
 
 tsc2007.h:
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007.h
+
+tsc2007_iio.c:
+	 wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_iio.c
 
 overlay: tft_touch.btbo
 
