@@ -29,9 +29,7 @@ get_code:  tsc2007_core.c  tsc2007.h tsc2007_iio.c
 
 tsc2007_core.c: tsc2007_core_patch.diff
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_core.c
-	@echo "KVER: $(OLD_KVER)"
 ifeq ($(OLD_KVER), 0)
-	@echo "needs patching..."
 	@patch < tsc2007_core_patch.diff
 endif
 
