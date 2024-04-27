@@ -30,7 +30,7 @@ The gpio pins are set up to use the *spi0* interface. In case of the CM4 with th
 
 ## Setting up the display:
 
-- add to the end of /boot/config.txt to setup the SPI interface and load the display driver:
+- add to the end of /boot/config.txt or on bookworm and higher /boot/firmware/config.txt:
 
 with IO2CAN:
 ```
@@ -39,6 +39,8 @@ dtoverlay=fbtft,spi0-1,ili9486,width=320,height=480,dc_pin=17
 dtparam=cpha=1,cpol=1,speed=24000000,fps=60
 dtparam=bgr=1,rotate=90,txbuflen=307200
 ```
+to setup the SPI interface and load the display driver.
+
 _Please note that this uses spi0-1 and dc_pin=17 unlike written on the TFT35-SPI git._
 
 with Manta/CM4:
@@ -50,7 +52,7 @@ dtparam=bgr=1,rotate=90,txbuflen=307200
 ``` 
 On the CB1 spi0-0 is reserved for CAN with the Manta, so it might be useful to set it up as well.
 
-- to get console output, append to line in /boot/cmdline.txt after "rootwait":
+- to get console output, append to line in /boot/cmdline.txt or on bookworm and higher /boot/firmware/cmdline.txt after "rootwait":
 ```
  fbcon=map:10 fbcon=font:8x8 logo.nologo
 ```
@@ -99,7 +101,7 @@ make
 make install
 ```
 
-- add to the end of /boot/config.txt:
+- add to the end of  /boot/config.txt or on bookworm and higher /boot/firmware/config.txt:
 ```
 dtoverlay=i2c-gpio,i2c_gpio_sda=27,i2c_gpio_scl=22,i2c_gpio_delay_us=3
 dtoverlay=tft_touch
