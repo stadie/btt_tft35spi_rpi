@@ -1,0 +1,31 @@
+--- tsc2007_core.c	2024-04-27 12:04:24.462441963 +0200
++++ tsc2007_core_fixed.c	2024-04-27 12:05:52.082224010 +0200
+@@ -358,8 +358,7 @@
+ }
+ 
+ static int tsc2007_probe_pdev(struct device *dev, struct tsc2007 *ts,
+-			      const struct tsc2007_platform_data *pdata,
+-			      const struct i2c_device_id *id)
++			      const struct tsc2007_platform_data *pdata)
+ {
+ 	ts->model             = pdata->model;
+ 	ts->x_plate_ohms      = pdata->x_plate_ohms;
+@@ -387,8 +386,7 @@
+ 	pdata->exit_platform_hw();
+ }
+ 
+-static int tsc2007_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int tsc2007_probe(struct i2c_client *client)
+ {
+ 	const struct tsc2007_platform_data *pdata =
+ 		dev_get_platdata(&client->dev);
+@@ -405,7 +403,7 @@
+ 		return -ENOMEM;
+ 
+ 	if (pdata)
+-		err = tsc2007_probe_pdev(&client->dev, ts, pdata, id);
++		err = tsc2007_probe_pdev(&client->dev, ts, pdata);
+ 	else
+ 		err = tsc2007_probe_properties(&client->dev, ts);
+ 	if (err)
