@@ -16,7 +16,8 @@
                 		#interrupt-parent = <&gpio>;
                 		#interrupts = <25 0x2>; /* falling edge */
                 		#gpios = <&gpio 25 0>;
-                		ti,x-plate-ohms = <660>;
+				ti,x-plate-ohms = <660>;
+				ti,y-plate-ohms = <660>;
 				ti,rt-thr = <3000>;
 				ti,fuzzx = <32>;
 				ti,fuzzy = <16>;
