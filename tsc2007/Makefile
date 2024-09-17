@@ -15,7 +15,7 @@ endif
 PWD := $(CURDIR)
 BTT_CODE := https://raw.githubusercontent.com/bigtreetech/CB1-Kernel/kernel-5.16/kernel
 
-all: get_code module overlay 
+all: get_code module 
 
 module:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
@@ -33,9 +33,7 @@ get_code:  tsc2007_core.c  tsc2007.h tsc2007_iio.c
 
 tsc2007_core.c: tsc2007_core_patch.diff
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_core.c
-ifeq ($(OLD_KVER), 0)
 	@patch < tsc2007_core_patch.diff
-endif
 
 tsc2007.h:
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007.h
@@ -43,13 +41,8 @@ tsc2007.h:
 tsc2007_iio.c:
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_iio.c
 
-overlay: tft_touch.btbo
 
-tft_touch.btbo: tft_touch.dts
-	dtc  -@ -I dts -O dtb -o tft_touch.dtbo tft_touch.dts
-
-install: tsc2007.ko  tft_touch.btbo
+install: tsc2007.ko 
 	sudo cp tsc2007.ko  /lib/modules/$(shell uname -r)/kernel/drivers/input/touchscreen/tsc2007.ko
 	sudo depmod
-	sudo cp tft_touch.dtbo /boot/overlays/.
 
