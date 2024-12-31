@@ -1,11 +1,12 @@
 # Getting TFT35-SPI working on a raspberry pi
 
+
 I have used the TFT35-SPI with IO2CAN from bigtreetech:
  - IO2CAN: https://github.com/bigtreetech/IO2CAN/tree/master
  - TFT35-SPI: https://github.com/bigtreetech/TFT35-SPI/tree/master
 Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
 
-However, this should also work with wires directly connecting the JST pins on the display with the gpio pins or  with a FCC cable to the "SPI screen" connector on a Manta board.
+**However, this works also with wires directly connecting the JST pins on the display with the gpio pins or with a FCC cable to the "SPI screen" connector on a Manta board with CM4.**
 
 Pin out:
 | TFT35-SPI | IOCAN gpio pin | Manta FCC gpio pin |
