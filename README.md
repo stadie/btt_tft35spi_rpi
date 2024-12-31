@@ -1,13 +1,12 @@
 # Getting TFT35-SPI working on a raspberry pi
 
+This works with different setups with the [TFT35-SPI](https://github.com/bigtreetech/TFT35-SPI/tree/master):
+- rpi: wires directly connecting the JST pins on the display with the gpio pins of pi
+- rpi: with [IO2CAN](https://github.com/bigtreetech/IO2CAN/tree/master) from bigtreetech. There, please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
+- CM4: with a FCC cable to the "SPI screen" connector on a Manta board with CM4
 
-I have used the TFT35-SPI with IO2CAN from bigtreetech:
- - IO2CAN: https://github.com/bigtreetech/IO2CAN/tree/master
- - TFT35-SPI: https://github.com/bigtreetech/TFT35-SPI/tree/master
-Please plug the IO2CAN into the gpio headers of the raspberry pi, connect the ribbon cable to the display and IO2CAN and **set the switch on the IO2CAN to "CM4"**.
-
-**However, this works also with wires directly connecting the JST pins on the display with the gpio pins or with a FCC cable to the "SPI screen" connector on a Manta board with CM4.**
-
+**Note**: You can also use the "cb1_armbian" branch to build the latest kernel driver from BTT for newer armbian versions. This removes the problem with the spurious/fake touch inputs on my Manta5/CB1 setup.
+  
 Pin out:
 | TFT35-SPI | IOCAN gpio pin | Manta FCC gpio pin |
 | -- | --- | --- |
@@ -53,7 +52,7 @@ dtparam=bgr=1,rotate=90,txbuflen=307200
 ``` 
 On the CB1 spi0-0 is reserved for CAN with the Manta, so it might be useful to set it up as well.
 
-- to get console output, append to line in /boot/cmdline.txt or on bookworm and higher /boot/firmware/cmdline.txt after "rootwait":
+- to get console output, append to the line in /boot/cmdline.txt or on bookworm and higher /boot/firmware/cmdline.txt after "rootwait":
 ```
  fbcon=map:10 fbcon=font:8x8 logo.nologo
 ```
