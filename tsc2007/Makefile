@@ -51,6 +51,7 @@ tft_touch.btbo: tft_touch.dts
 	dtc  -@ -I dts -O dtb -o tft_touch.dtbo tft_touch.dts
 
 install: tsc2007.ko  tft_touch.btbo
+	sudo rm -f /lib/modules/$(shell uname -r)/kernel/drivers/input/touchscreen/tsc2007.ko.xz
 	sudo cp tsc2007.ko  /lib/modules/$(shell uname -r)/kernel/drivers/input/touchscreen/tsc2007.ko
 	sudo depmod
 	sudo cp tft_touch.dtbo /boot/overlays/.
