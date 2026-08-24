@@ -3,7 +3,7 @@
 # author: Hartmut Stadie  Dec 2023
 #
 OLD_KVER := $(shell dpkg  --compare-versions `uname -r | cut -d'.' -f 1,2` lt 6.3; echo $$?)
-NEW_KVER := $(shell dpkg  --compare-versions `uname -r | cut -d'.' -f 1,2` lt 6.18; echo $$?)
+NEW_KVER := $(shell dpkg  --compare-versions `uname -r | cut -d'.' -f 1,2` lt 6.16; echo $$?)
 # Build options
 obj-m += tsc2007.o
 
@@ -33,15 +33,15 @@ clean_code: clean
 get_code:  tsc2007_core.c  tsc2007.h tsc2007_iio.c
 
 tsc2007_core.c: tsc2007_core_patch.diff
-	@echo "newer kernel version: $(OLD_KVER)"
-	@echo "kernel at least 6.18: $(NEW_KVER)"
+	@echo "kernel at least 6.3: $(OLD_KVER)"
+	@echo "kernel at least 6.16: $(NEW_KVER)"
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_core.c
 ifeq ($(OLD_KVER), 1)
-	@echo "patching drivers for newer kernel"
+	@echo "patching drivers for 6.3+ kernels"
 	@patch < tsc2007_core_patch.diff
 endif
 ifeq ($(NEW_KVER), 1)
-	@echo "patching drivers for 6.18+ kernel"
+	@echo "patching drivers for 6.16+ kernels"
 	@patch < tsc2007_core_patch2.diff
 endif
 
