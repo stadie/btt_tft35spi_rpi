@@ -14,5 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build
-      run: cd tsc2007; make
+    - name: Build on 6.24
+      run: uname -a; cd tsc2007; make
