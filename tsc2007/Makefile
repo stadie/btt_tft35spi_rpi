@@ -3,6 +3,7 @@
 # author: Hartmut Stadie  Dec 2023
 #
 OLD_KVER := $(shell dpkg  --compare-versions `uname -r | cut -d'.' -f 1,2` ge 6.3; echo $$?)
+NEW_KVER := $(shell dpkg  --compare-versions `uname -r | cut -d'.' -f 1,2` lt 6.18; echo $$?)
 # Build options
 obj-m += tsc2007.o
 
@@ -20,23 +21,28 @@ all: get_code module overlay
 module:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
-clean:
+clean: clean_code
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 	rm -f tft_touch.btbo
 
 update: clean_code get_code
 
-clean_code: clean
+clean_code: 
 	rm -f *.c *.h
 
 get_code:  tsc2007_core.c  tsc2007.h tsc2007_iio.c
 
 tsc2007_core.c: tsc2007_core_patch.diff
 	@echo "old kernel version: $(OLD_KVER)"
+	@echo "kernel at least 6.18: $(NEW_KVER)"
 	wget $(BTT_CODE)/drivers/input/touchscreen/tsc2007_core.c
 ifeq ($(OLD_KVER), 0)
 	@echo "patching drivers for newer kernel"
 	@patch < tsc2007_core_patch.diff
+endif
+ifeq ($(NEW_KVER), 1)
+	@echo "patching drivers for 6.18+ kernel"
+	@patch < tsc2007_core_patch2.diff
 endif
 
 tsc2007.h:

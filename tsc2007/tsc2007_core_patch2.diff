@@ -1,0 +1,11 @@
+--- tsc2007_core.c	2026-08-24 13:15:50.974594667 +0200
++++ tsc2007_core_fixed.c	2026-08-23 17:07:25.694164246 +0200
+@@ -288,7 +288,7 @@
+ 
+ static void tsc2007_ts_irq_poll_timer(struct timer_list *t)
+ {
+-	struct tsc2007 *ts = from_timer(ts, t, timer);
++	struct tsc2007 *ts = container_of(t, struct tsc2007, timer);
+ 
+ 	schedule_work(&ts->work_i2c_poll);
+ 	mod_timer(&ts->timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
