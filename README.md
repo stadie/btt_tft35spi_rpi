@@ -118,7 +118,7 @@ you should have a working touch display.
 > If the kernel version changes you will have to build and install the module again:
 > ```
 > cd btt_tft35/tsc2007
-> make clean
+> make clean_code
 > make
 > make install
 > ```
